@@ -1,6 +1,5 @@
-package ru.auto.maks;
+package ru.auto.unit;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 public class TestDataGenerator {

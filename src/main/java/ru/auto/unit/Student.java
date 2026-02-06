@@ -1,4 +1,4 @@
-package ru.auto.maks;
+package ru.auto.unit;
 
 import java.util.ArrayList;
 import java.util.List;

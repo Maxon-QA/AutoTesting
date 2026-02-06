@@ -1,4 +1,4 @@
-package ru.auto.maks;
+package ru.auto.unit;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -48,7 +48,7 @@ public class StudentTests {
     }
 
     @ParameterizedTest(name = "Проверка добавления допустимых значений оценок")
-    @MethodSource("ru.auto.maks.TestDataGenerator#getGradePositive")
+    @MethodSource("ru.auto.unit.TestDataGenerator#getGradePositive")
     public void checkGradesInRange(int grade) {
         Student student = new Student(name);
         student.addGrade(grade);
@@ -56,7 +56,7 @@ public class StudentTests {
     }
 
     @ParameterizedTest(name = "Проверка добавления недопустимых значений оценок")
-    @MethodSource("ru.auto.maks.TestDataGenerator#getGradeNegative")
+    @MethodSource("ru.auto.unit.TestDataGenerator#getGradeNegative")
     public void checkGradesInNotRange(int grade) {
         Student student = new Student(name);
         Assertions.assertThrows(IllegalArgumentException.class, () -> student.addGrade(grade));
