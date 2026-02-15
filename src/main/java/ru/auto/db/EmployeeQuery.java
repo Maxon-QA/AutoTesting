@@ -6,9 +6,10 @@ import java.util.List;
 
 public class EmployeeQuery {
 
-    private static String queryFindEmployeeByName = "SELECT * FROM Employee WHERE name = ?";
-    private static String queryFindAllEpEmployee = "SELECT * FROM Employee";
-    private static String queryFindEmployeeByDepartmentName =
+    static String queryCountEmployeeByDepartment = "SELECT count(*) FROM Employee WHERE DepartmentID = ?";
+    static String queryFindEmployeeByName = "SELECT * FROM Employee WHERE name = ?";
+    static String queryFindAllEmployee = "SELECT * FROM Employee";
+    static String queryFindEmployeeByDepartmentName =
             """
             SELECT count(*) FROM Employee JOIN Department
             ON Employee.DepartmentID = Department.ID
@@ -46,7 +47,7 @@ public class EmployeeQuery {
         Statement statement = connect.createStatement(
                 ResultSet.TYPE_SCROLL_INSENSITIVE
                 , ResultSet.CONCUR_UPDATABLE);
-        ResultSet resultSet = statement.executeQuery(queryFindAllEpEmployee);
+        ResultSet resultSet = statement.executeQuery(queryFindAllEmployee);
         int count = 0;
         while (resultSet.next()) {
             String name = resultSet.getString("Name");
@@ -65,6 +66,15 @@ public class EmployeeQuery {
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.next();
         System.out.println("Количество сотрудников в отделе " + nameDepartment + " = " + resultSet.getString(1));
+    }
+
+    public static int  getCountEmployeeInDepartment(Connection connect, int idDepartment) throws SQLException {
+
+        PreparedStatement preparedStatement = connect.prepareStatement(queryCountEmployeeByDepartment);
+        preparedStatement.setInt(1, idDepartment);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+        return resultSet.getInt(1);
     }
 }
 
