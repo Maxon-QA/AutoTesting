@@ -1,0 +1,11 @@
+XPath-локатор для заголовка «Главное сегодня».
+//div[contains(@class, "styles_todayMainPostsColumn")]/h2
+
+XPath-локатор для заголовка второго элемента в блоке «Новые видео».
+//div[contains(@class, "styles_videoPostsColumn")]//li[2]//a[contains(@class, "styles_titleLink")]
+
+CSS-локатор для заглавной ссылки «Скоро в кино» в блоке «Календарь релизов».
+a[href*="premiere"]
+
+CSS-локатор до иконки комментариев второго элемента в блоке «Популярное».
+div[class*=styles_popularPostsColumn] li:nth-child(2) a:nth-child(2)
