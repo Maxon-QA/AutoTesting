@@ -45,8 +45,8 @@ public class PobedaTests {
     }
 
     @Test
-    @DisplayName("checkpobeda")
-    public void checkpobeda() {
+    @DisplayName("Проверка загрузки картинки поездки в калининград и смена яызка")
+    public void pobedaCheckSomething() {
         driver.get(BASE_URL);
 
         WebElement fieldFind = driver.findElement(By.cssSelector("textarea[title=\"Поиск\"]"));
