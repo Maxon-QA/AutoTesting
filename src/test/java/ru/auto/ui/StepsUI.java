@@ -1,11 +1,13 @@
 package ru.auto.ui;
 
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.devtools.v144.page.Page;
 
 import java.util.Arrays;
+import java.util.Set;
 
 public class StepsUI {
 
@@ -27,6 +29,17 @@ public class StepsUI {
                 waitingTime = System.currentTimeMillis() - startLoadingTime;
             } else {
                 throw new TimeoutException("Превышено время ожидания элемента  " + waitingTime + webElement);
+            }
+        }
+    }
+
+    public static void changeTab(WebDriver driver) {
+        String currentTab = driver.getWindowHandle();
+        Set<String> allTabs = driver.getWindowHandles();
+        for (String tab : allTabs) {
+            if (!tab.equals(currentTab)) {
+                driver.switchTo().window(tab);
+                break;
             }
         }
     }
