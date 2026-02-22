@@ -1,42 +1,46 @@
 package ru.auto.ui;
 
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.auto.ui.POM.PobedaMainPage;
 
 import java.time.Duration;
-import java.util.Arrays;
 
 public class PobedaTests {
 
     private final SoftAssertions softAssertions = new SoftAssertions();
     String BASE_URL = "https://www.google.com/";
-    public WebDriver driver;
+
+    WebDriver driver;
     WebDriverWait wait;
+
+    PobedaMainPage objMainPage;
 
     @BeforeEach
     public void setUp() {
-        ChromeOptions options = new ChromeOptions();
-        options.setExperimentalOption("excludeSwitches", Arrays.asList("enable-automation"));
-        options.setExperimentalOption("useAutomationExtension", false);
-        options.addArguments("--disable-blink-features=AutomationControlled");
-        driver = new ChromeDriver(options);
+        driver = new ChromeDriver(StepsUI.setOptionsDriver());
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(35));
-
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    }
+
+        objMainPage = new PobedaMainPage(driver);
+        objMainPage.openMainPage();
+        Assertions.assertEquals(
+                "Авиакомпания «Победа» - купить авиабилеты онлайн, дешёвые билеты на самолёт, прямые и трансферные рейсы с пересадками"
+                , objMainPage.getTitleText()
+                , "Название заголовка страницы не совпадает");
+        Assertions.assertTrue(
+                objMainPage.getLogo().stream().anyMatch(WebElement::isDisplayed)
+                , "Логотип не отобразился");
+        }
 
     @AfterEach
     public void tearDown() {
@@ -45,7 +49,20 @@ public class PobedaTests {
     }
 
     @Test
-    @DisplayName("Проверка загрузки картинки поездки в калининград и смена языка")
+    @DisplayName("Проверка всплывающего меню \"Информация\"")
+    public void checkPopUpInformation() {
+        objMainPage.moveСursorToModuleInfo();
+
+        Assertions.assertTrue(objMainPage.getTitleOfInfoPrepareToFlight().isDisplayed()
+                ,"Заголовок Подготовка к полёту - не отобразился");
+        Assertions.assertTrue(objMainPage.getTitleOfInfoUsefulData().isDisplayed()
+                ,"Заголовок Полезная информация - не отобразился");
+        Assertions.assertTrue(objMainPage.getTitleOfInfoAboutCompany().isDisplayed()
+                ,"Заголовок О компании - не отобразился");
+    }
+
+    @Test
+    @DisplayName("Проверка загрузки картинки поездки в калининград и смена яызка")
     public void pobedaCheckSomething() {
         driver.get(BASE_URL);
 
