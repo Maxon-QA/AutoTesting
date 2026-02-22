@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -64,8 +65,18 @@ public class PobedaMainPage {
     @FindBy(xpath = locatorModuleFind + "//input[@placeholder='Обратно']")
     WebElement inputsDateToModuleFind;
 
+    @FindBy(xpath = locatorModuleFind + "//input[@placeholder='Фамилия клиента']")
+    WebElement inputSurname;
+
+    @FindBy(xpath = locatorModuleFind + "//input[@placeholder='Номер бронирования или билета']")
+    WebElement inputNumberBooking;
+
     @FindBy(xpath = locatorModuleFind + "//button[@type='submit']")
-    WebElement buttonFindTicket;
+    WebElement buttonFind;
+
+    @FindBy(xpath = "//div[contains(@class,'root-tabsControlList')]//span[text()='Управление бронированием']/../..")
+    WebElement buttonBookingManager;
+
 
     public PobedaMainPage(WebDriver driver) {
         this.driver = driver;
@@ -81,7 +92,6 @@ public class PobedaMainPage {
     public String getTitleText() {
         return titleOfPage.getAttribute("textContent");
     }
-
 
     public void moveСursorToModuleInfo() {
         actions.moveToElement(moduleInfo).perform();
@@ -112,8 +122,20 @@ public class PobedaMainPage {
         inputsToModuleFind.sendKeys(Keys.ENTER);
     }
 
-    public void clickFindTicket() {
-        buttonFindTicket.click();
+    public void setInputSurname(String surname) {
+        inputSurname.sendKeys("surname");
+    }
+
+    public void setInputNumberBooking(String number) {
+        inputNumberBooking.sendKeys(number);
+    }
+
+    public void clickFind() {
+        buttonFind.click();
+    }
+
+    public void clickBookingManager() {
+        buttonBookingManager.click();
     }
 
     public boolean checkFailsDateFrom() {
@@ -136,6 +158,19 @@ public class PobedaMainPage {
                 .isTrue();
         softAssertions.assertThat(inputsDateToModuleFind.isDisplayed())
                 .isTrue();
+        softAssertions.assertAll();
+    }
+
+    public void checkInputsModuleFindBooking() {
+        final SoftAssertions softAssertions = new SoftAssertions();
+        wait.until(ExpectedConditions.elementToBeClickable(inputSurname));
+        softAssertions.assertThat(inputSurname.isDisplayed())
+                .isTrue();
+        softAssertions.assertThat(inputNumberBooking.isDisplayed())
+                .isTrue();
+        softAssertions.assertThat(buttonFind.isDisplayed())
+                .isTrue();
+
         softAssertions.assertAll();
     }
 }
