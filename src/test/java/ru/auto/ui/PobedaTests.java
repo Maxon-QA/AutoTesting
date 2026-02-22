@@ -62,6 +62,17 @@ public class PobedaTests {
     }
 
     @Test
+    @DisplayName("Проверка поиска Авиабилета без даты вылета")
+    public void checkFindTicketWithoutDateFrom() throws InterruptedException {
+        objMainPage.scrollPageToModuleFind();
+        objMainPage.checkInputsModuleFind();
+        objMainPage.setFromCity("Москва");
+        objMainPage.setToCity("Санкт-Петербург");
+        objMainPage.clickFindTicket();
+        Assertions.assertTrue(objMainPage.checkFailsDateFrom());
+    }
+
+    @Test
     @DisplayName("Проверка загрузки картинки поездки в калининград и смена яызка")
     public void pobedaCheckSomething() {
         driver.get(BASE_URL);
